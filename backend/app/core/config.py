@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     INSTANT_BOOKING_TTL_MINUTES: int = 30
     DEFAULT_SESSION_DURATION_HOURS: int = 3
 
-    model_config = SettingsConfigDict(env_file=".env")
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
 
 settings = Settings()

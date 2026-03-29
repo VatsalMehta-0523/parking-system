@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, field_validator
+from pydantic import BaseModel, EmailStr, field_validator, Field
 from typing import Optional, List
 from datetime import datetime
 from .models import BookingType, BookingStatus, PaymentStatus
@@ -36,13 +36,13 @@ class UserUpdate(BaseModel):
 class ProviderCreate(BaseModel):
     name: str
     email: str
-    password: str
+    password: str = Field(..., max_length=72)
     phone: Optional[str] = None
 
 
 class ProviderLogin(BaseModel):
     email: str
-    password: str
+    password: str = Field(..., max_length=72)
 
 
 class ProviderResponse(BaseModel):

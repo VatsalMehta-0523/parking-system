@@ -37,6 +37,7 @@ function BellIcon() {
 export default function Header({ title, subtitle, greeting }) {
   const { theme, toggleTheme } = useTheme()
   const [scrolled, setScrolled] = useState(false)
+  const [showNotifs, setShowNotifs] = useState(false)
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 10)
@@ -63,9 +64,24 @@ export default function Header({ title, subtitle, greeting }) {
       </div>
 
       <div className="flex items-center gap-8">
-        <button className="btn-icon" title="Notifications">
-          <BellIcon />
-        </button>
+        <div style={{ position: 'relative' }}>
+          <button className="btn-icon" title="Notifications" onClick={() => setShowNotifs(!showNotifs)}>
+            <BellIcon />
+          </button>
+          
+          {showNotifs && (
+            <div className="card animate-slide-up" style={{ 
+              position: 'absolute', top: '120%', right: 0, width: 260, padding: 0, overflow: 'hidden', zIndex: 100 
+            }}>
+              <div style={{ padding: '16px', background: 'var(--bg-surface-2)', borderBottom: '1px solid var(--border)', fontWeight: 600, fontSize: 13 }}>
+                Notifications
+              </div>
+              <div style={{ padding: '32px 16px', textAlign: 'center', color: 'var(--text-muted)', fontSize: 13 }}>
+                No notifications
+              </div>
+            </div>
+          )}
+        </div>
         <button className="btn-icon" onClick={toggleTheme} title="Toggle theme">
           {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
         </button>

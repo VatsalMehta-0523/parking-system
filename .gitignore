@@ -1,0 +1,42 @@
+# ─── Python ──────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+
+# ─── Virtual Environments ────────────────────────────────────────────
+backend/.venv/
+backend/venv/
+.venv/
+venv/
+
+# ─── Node.js ─────────────────────────────────────────────────────────
+node_modules/
+frontend/node_modules/
+
+# ─── Environment / Secrets ───────────────────────────────────────────
+.env
+*.env
+!.env.example
+
+# ─── IDE / Editor ────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── OS Generated ───────────────────────────────────────────────────
+*.log
+*.tmp
+
+# ─── Test / Debug Artifacts ──────────────────────────────────────────
+backend/test.py
+backend/test.bat
+backend/test_api.py

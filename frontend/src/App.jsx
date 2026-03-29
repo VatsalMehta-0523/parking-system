@@ -13,6 +13,7 @@ import TicketPage   from './pages/customer/TicketPage'
 import ActiveSession from './pages/customer/ActiveSession'
 import HistoryPage  from './pages/customer/HistoryPage'
 import ProfilePage  from './pages/customer/ProfilePage'
+import OverviewPage from './pages/customer/OverviewPage'
 
 // Provider Pages
 import LoginPage    from './pages/provider/LoginPage'
@@ -38,6 +39,7 @@ export default function App() {
               <Route path="/session"      element={<ActiveSession />} />
               <Route path="/history"      element={<HistoryPage />} />
               <Route path="/profile"      element={<ProfilePage />} />
+              <Route path="/overview"     element={<OverviewPage />} />
             </Route>
 
             {/* Provider auth (no layout) */}
