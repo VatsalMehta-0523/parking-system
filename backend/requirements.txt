@@ -24,3 +24,9 @@ APScheduler==3.10.4
 
 # ─── Environment ─────────────────────────────────────────────────────────────
 python-dotenv==1.0.0
+
+# ─── Computer Vision & AI ────────────────────────────────────────────────────
+numpy==1.26.4
+ultralytics==8.1.0
+opencv-python-headless==4.9.0.80
+shapely==2.0.2

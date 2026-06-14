@@ -1,0 +1,218 @@
+.detection-page {
+  padding: 24px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.detection-container {
+  display: flex;
+  gap: 24px;
+  flex: 1;
+  margin-top: 24px;
+  min-height: 0; /* Important for flex children scrolling */
+}
+
+.detection-sidebar {
+  width: 320px;
+  background-color: var(--bg-surface);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+}
+
+.control-group {
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.control-group:last-child {
+  border-bottom: none;
+}
+
+.group-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+
+.instruction-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.upload-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 10px 16px;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.upload-btn:hover {
+  background-color: var(--primary-color-dark);
+}
+
+.drawing-controls {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.drawing-controls button {
+  flex: 1;
+}
+
+.run-btn {
+  height: 48px;
+  font-size: 16px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(var(--primary-color-rgb), 0.3);
+}
+
+.results-panel {
+  margin-top: 16px;
+  padding: 16px;
+  background-color: var(--bg-background);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.results-summary {
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+
+.results-legend {
+  display: flex;
+  gap: 16px;
+  font-size: 14px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-free {
+  background-color: #22c55e;
+}
+
+.dot-occupied {
+  background-color: #ef4444;
+}
+
+.slots-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.slot-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: var(--bg-background);
+  border-radius: 6px;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.status-badge {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.status-free {
+  background-color: rgba(34, 197, 94, 0.1);
+  color: #16a34a;
+}
+
+.status-occupied {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+}
+
+.status-unknown {
+  background-color: rgba(107, 114, 128, 0.1);
+  color: #4b5563;
+}
+
+/* Workspace */
+.detection-workspace {
+  flex: 1;
+  background-color: #111827; /* Dark background for canvas */
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.empty-state {
+  color: #9ca3af;
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.canvas-container {
+  max-width: 100%;
+  max-height: 100%;
+  overflow: auto;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+.konva-stage {
+  cursor: crosshair;
+}
+
+/* Override existing buttons just for this page if needed */
+.btn-success {
+  background-color: #22c55e;
+  color: white;
+}
+.btn-success:hover {
+  background-color: #16a34a;
+}
+.btn-danger {
+  background-color: #ef4444;
+  color: white;
+}
+.btn-danger:hover {
+  background-color: #dc2626;
+}
+.btn-outline-danger {
+  border: 1px solid #ef4444;
+  color: #ef4444;
+  background: transparent;
+}
+.btn-outline-danger:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+}

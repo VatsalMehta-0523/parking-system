@@ -40,3 +40,13 @@ desktop.ini
 backend/test.py
 backend/test.bat
 backend/test_api.py
+
+# ─── Machine Learning Weights ──────────────────────────────────────────
+*.pt
+*.pth
+*.onnx
+*.weights
+
+# ─── Additional Build / Cache Directories ─────────────────────────────
+.vite/
+.eslintcache
