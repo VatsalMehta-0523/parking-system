@@ -8,7 +8,6 @@ const PAGE_META = {
   '/provider/locations': { title: 'Locations',  subtitle: 'Manage your parking facilities' },
   '/provider/bookings':  { title: 'Bookings',   subtitle: 'All reservations across your locations' },
   '/provider/analytics': { title: 'Analytics',  subtitle: 'Performance metrics and trends' },
-  '/provider/detection': { title: 'AI Detection', subtitle: 'Upload feed and map slots with YOLOv8' },
 }
 
 export default function ProviderLayout() {
