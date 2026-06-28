@@ -21,7 +21,6 @@ import Dashboard    from './pages/provider/Dashboard'
 import LocationsPage from './pages/provider/LocationsPage'
 import BookingsPage  from './pages/provider/BookingsPage'
 import AnalyticsPage from './pages/provider/AnalyticsPage'
-import DetectionPage from './pages/provider/DetectionPage'
 
 export default function App() {
   return (
@@ -52,7 +51,6 @@ export default function App() {
               <Route path="/provider/locations"  element={<LocationsPage />} />
               <Route path="/provider/bookings"   element={<BookingsPage />} />
               <Route path="/provider/analytics"  element={<AnalyticsPage />} />
-              <Route path="/provider/detection"  element={<DetectionPage />} />
             </Route>
 
             {/* Catch-all */}
