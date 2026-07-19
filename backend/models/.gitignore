@@ -1,0 +1,4 @@
+# Place YOLOv8 model files here
+# Download with: yolo export model=yolov8l.pt
+# Or let ultralytics auto-download on first use
+*.pt

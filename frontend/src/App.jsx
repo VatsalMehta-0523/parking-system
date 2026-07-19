@@ -21,6 +21,7 @@ import Dashboard    from './pages/provider/Dashboard'
 import LocationsPage from './pages/provider/LocationsPage'
 import BookingsPage  from './pages/provider/BookingsPage'
 import AnalyticsPage from './pages/provider/AnalyticsPage'
+import SurveillancePage from './pages/provider/SurveillancePage'
 
 export default function App() {
   return (
@@ -51,6 +52,7 @@ export default function App() {
               <Route path="/provider/locations"  element={<LocationsPage />} />
               <Route path="/provider/bookings"   element={<BookingsPage />} />
               <Route path="/provider/analytics"  element={<AnalyticsPage />} />
+              <Route path="/provider/surveillance" element={<SurveillancePage />} />
             </Route>
 
             {/* Catch-all */}

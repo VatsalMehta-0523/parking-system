@@ -8,6 +8,7 @@ const PAGE_META = {
   '/provider/locations': { title: 'Locations',  subtitle: 'Manage your parking facilities' },
   '/provider/bookings':  { title: 'Bookings',   subtitle: 'All reservations across your locations' },
   '/provider/analytics': { title: 'Analytics',  subtitle: 'Performance metrics and trends' },
+  '/provider/surveillance': { title: 'Surveillance', subtitle: 'AI-powered parking slot detection' },
 }
 
 export default function ProviderLayout() {
