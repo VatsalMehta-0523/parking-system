@@ -61,12 +61,12 @@ function AnimatedVisual() {
           <rect x={148} y={100} width={36} height={20} rx={4}
             fill="none" stroke="rgba(16,185,129,0.5)" strokeWidth={1.5} strokeDasharray="4 2" />
           <text x={166} y={113} textAnchor="middle" fill="rgba(16,185,129,0.7)"
-            fontSize={10} fontFamily="DM Sans, sans-serif" fontWeight={600}>FREE</text>
+            fontSize={10} fontFamily="Inter, sans-serif" fontWeight={600}>FREE</text>
         </g>
       </svg>
 
       <h2 style={{
-        fontFamily: 'Syne, sans-serif', fontWeight: 800,
+        fontFamily: 'Inter, sans-serif', fontWeight: 600,
         fontSize: 28, color: '#ffffff',
         textAlign: 'center', letterSpacing: '-0.5px',
         position: 'relative', marginBottom: 12,
@@ -95,6 +95,7 @@ function AnimatedVisual() {
 
 export default function LoginPage() {
   const [mode, setMode] = useState('login')
+  const [showPassword, setShowPassword] = useState(false)
   const [form, setForm] = useState({ name: '', email: '', password: '', phone: '' })
   const { login, register, loading, error } = useAuth()
   const { theme, toggleTheme } = useTheme()
@@ -187,7 +188,40 @@ export default function LoginPage() {
 
           <div className="form-group">
             <label className="form-label">Password</label>
-            <input name="password" type="password" className="form-input" placeholder="••••••••" value={form.password} onChange={handleChange} required />
+            <div style={{ position: 'relative' }}>
+              <input 
+                name="password" 
+                type={showPassword ? "text" : "password"} 
+                className="form-input" 
+                placeholder="••••••••" 
+                value={form.password} 
+                onChange={handleChange} 
+                required 
+                style={{ paddingRight: 40 }}
+              />
+              <button 
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                style={{
+                  position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)',
+                  background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: 4,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center'
+                }}
+                title={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                  </svg>
+                ) : (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                )}
+              </button>
+            </div>
           </div>
 
           {error && <div className="alert alert-error">{error}</div>}

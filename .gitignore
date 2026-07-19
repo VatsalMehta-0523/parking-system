@@ -40,3 +40,7 @@ desktop.ini
 backend/test.py
 backend/test.bat
 backend/test_api.py
+
+# ─── AI Models ───────────────────────────────────────────────────────
+*.pt
+backend/models/*.pt

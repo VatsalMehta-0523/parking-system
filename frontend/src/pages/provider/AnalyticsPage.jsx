@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import {
   ComposedChart, BarChart, Bar, LineChart, Line,
   XAxis, YAxis, CartesianGrid, Tooltip,
@@ -42,6 +43,7 @@ export default function AnalyticsPage() {
   const [stats, setStats] = useState(null)
   const [loading, setLoading] = useState(true)
   const [days, setDays] = useState(30)
+  const location = useLocation()
 
   const load = async () => {
     setLoading(true)
@@ -90,7 +92,7 @@ export default function AnalyticsPage() {
   }
 
   return (
-    <div>
+    <div key={location.key}>
       <div className="flex items-center justify-between page-header">
         <div>
           <h1 className="page-title">Analytics</h1>
@@ -136,10 +138,10 @@ export default function AnalyticsPage() {
             } />
             <Legend wrapperStyle={{ fontSize: 12 }} />
             <Bar yAxisId="left" dataKey="revenue" name="Revenue" fill="#3b82f6" radius={[3, 3, 0, 0]}
-              opacity={0.85} isAnimationActive animationDuration={700} />
+              opacity={0.85} isAnimationActive animationDuration={1200} />
             <Line yAxisId="right" type="monotone" dataKey="bookings" name="Bookings"
               stroke="#10b981" strokeWidth={2.5} dot={false} activeDot={{ r: 4, strokeWidth: 0 }}
-              isAnimationActive animationDuration={800} />
+              isAnimationActive animationDuration={1500} />
           </ComposedChart>
         </ResponsiveContainer>
       </div>
@@ -158,7 +160,7 @@ export default function AnalyticsPage() {
               <YAxis tick={{ fontSize: 9, fill: 'var(--text-muted)' }} axisLine={false} tickLine={false}
                 tickFormatter={(v) => `${v}%`} />
               <Tooltip content={<ChartTooltip formatter={(v) => `${v}%`} />} />
-              <Bar dataKey="occupancy_rate" radius={[3, 3, 0, 0]} isAnimationActive animationDuration={600}>
+              <Bar dataKey="occupancy_rate" radius={[3, 3, 0, 0]} isAnimationActive animationDuration={1200}>
                 {occupancy.map((entry, i) => (
                   <rect key={i} fill={
                     entry.occupancy_rate > 60 ? '#ef4444' :

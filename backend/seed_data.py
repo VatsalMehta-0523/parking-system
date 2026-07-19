@@ -1,13 +1,13 @@
 """
-ParkSmart — Seed Data Script
-Populates the database with realistic Indian parking data.
-Run:  python seed_data.py   (from the backend/ directory, with venv active)
+ParkSmart — Pitch Demo Seed Data Script
+Generates a highly realistic, presentation-ready dataset for Vatsal Mehta.
 """
 
 import sys, os
 sys.path.insert(0, os.path.dirname(__file__))
 
 import bcrypt
+import random
 from datetime import datetime, timedelta
 from uuid import uuid4
 from sqlalchemy import create_engine, text
@@ -15,175 +15,158 @@ from app.core.config import settings
 
 engine = create_engine(settings.DATABASE_URL)
 
-
 def uid():
     return str(uuid4())
-
 
 def hash_pw(plain: str) -> str:
     return bcrypt.hashpw(plain.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
 
+# Fixed IDs so script is idempotent for the provider and locations
+P1 = "550e8400-e29b-41d4-a716-446655440000"
 
-# ──────────────────────────────────────────────────────────────────────────────
-#  Static IDs (so foreign keys link correctly)
-# ──────────────────────────────────────────────────────────────────────────────
+# Fixed location IDs
+L1 = "660e8400-e29b-41d4-a716-446655440001"
+L2 = "660e8400-e29b-41d4-a716-446655440002"
+L3 = "660e8400-e29b-41d4-a716-446655440003"
+L4 = "660e8400-e29b-41d4-a716-446655440004"
+L5 = "660e8400-e29b-41d4-a716-446655440005"
 
-# Providers
-P1 = uid()  # Rajesh Mehta
-P2 = uid()  # Priya Sharma
+# Pricing policies
+PR1 = "770e8400-e29b-41d4-a716-446655440001"
+PR2 = "770e8400-e29b-41d4-a716-446655440002"
+PR3 = "770e8400-e29b-41d4-a716-446655440003"
+PR4 = "770e8400-e29b-41d4-a716-446655440004"
+PR5 = "770e8400-e29b-41d4-a716-446655440005"
 
-# Users
-U1 = uid()  # Aarav Patel
-U2 = uid()  # Sneha Iyer
-U3 = uid()  # Kunal Desai
-U4 = uid()  # Meera Joshi
-
-# Locations
-L1 = uid()  # CG Road Parking Hub
-L2 = uid()  # SG Highway Tower Parking
-L3 = uid()  # Koregaon Park Lot
-L4 = uid()  # Connaught Place Basement
-
-# Pricing
-PR1 = uid()
-PR2 = uid()
-PR3 = uid()
-PR4 = uid()
-
-# Slots — 5 per location = 20 total
-SLOTS_L1 = [uid() for _ in range(5)]
-SLOTS_L2 = [uid() for _ in range(5)]
-SLOTS_L3 = [uid() for _ in range(5)]
-SLOTS_L4 = [uid() for _ in range(5)]
-
-# Bookings
-B1 = uid()
-B2 = uid()
-B3 = uid()
-B4 = uid()
-B5 = uid()
-B6 = uid()
-
+# Fixed Users
+U1 = "880e8400-e29b-41d4-a716-446655440001"
+U2 = "880e8400-e29b-41d4-a716-446655440002"
+U3 = "880e8400-e29b-41d4-a716-446655440003"
+U4 = "880e8400-e29b-41d4-a716-446655440004"
+U5 = "880e8400-e29b-41d4-a716-446655440005"
+U6 = "880e8400-e29b-41d4-a716-446655440006"
 
 def seed():
     now = datetime.utcnow()
 
     with engine.begin() as conn:
-        # ── 1. Providers ─────────────────────────────────────────────────
+        # Don't truncate to preserve old data
+        
+        # ── 1. Provider ─────────────────────────────────────────────────
         conn.execute(text("""
             INSERT INTO providers (provider_id, name, email, password_hash, phone, is_verified)
             VALUES
-              (:p1, 'Rajesh Mehta',  'rajesh@parksmart.in',  :pw, '9876543210', TRUE),
-              (:p2, 'Priya Sharma',  'priya@parksmart.in',   :pw, '9823456789', TRUE)
-            ON CONFLICT DO NOTHING
-        """), {"p1": P1, "p2": P2, "pw": hash_pw("Test@1234")})
+              (:p1, 'Vatsal Mehta',  'vatsal@parksmart.in',  :pw, '9876543210', TRUE)
+            ON CONFLICT (provider_id) DO NOTHING
+        """), {"p1": P1, "pw": hash_pw("Test@1234")})
 
         # ── 2. Users ─────────────────────────────────────────────────────
         conn.execute(text("""
             INSERT INTO users (user_id, name, phone, email, vehicle_number, is_verified)
             VALUES
-              (:u1, 'Aarav Patel',   '9898012345', 'aarav.p@gmail.com',   'GJ-01-AB-1234', TRUE),
-              (:u2, 'Sneha Iyer',    '9876501234', 'sneha.iyer@gmail.com','MH-12-CD-5678', TRUE),
-              (:u3, 'Kunal Desai',   '9988776655', 'kunal.d@outlook.com', 'GJ-05-EF-9012', TRUE),
-              (:u4, 'Meera Joshi',   '9112233445', 'meera.j@yahoo.com',   'DL-03-GH-3456', TRUE)
-            ON CONFLICT DO NOTHING
-        """), {"u1": U1, "u2": U2, "u3": U3, "u4": U4})
+              (:u1, 'Demo User 1', '9000000001', 'demo1@parksmart.in', 'GJ-11-AA-0001', TRUE),
+              (:u2, 'Demo User 2', '9000000002', 'demo2@parksmart.in', 'GJ-11-AA-0002', TRUE),
+              (:u3, 'Demo User 3', '9000000003', 'demo3@parksmart.in', 'GJ-11-AA-0003', TRUE),
+              (:u4, 'Demo User 4', '9000000004', 'demo4@parksmart.in', 'GJ-11-AA-0004', TRUE),
+              (:u5, 'Demo User 5', '9000000005', 'demo5@parksmart.in', 'GJ-11-AA-0005', TRUE),
+              (:u6, 'Demo User 6', '9000000006', 'demo6@parksmart.in', 'GJ-11-AA-0006', TRUE)
+            ON CONFLICT (user_id) DO NOTHING
+        """), {"u1": U1, "u2": U2, "u3": U3, "u4": U4, "u5": U5, "u6": U6})
 
-        # ── 3. Locations ─────────────────────────────────────────────────
+        # ── 3. Locations (Vatsal's Ahmedabad Empire) ─────────────────────────────────────────────────
         conn.execute(text("""
             INSERT INTO locations (location_id, provider_id, name, area, city, latitude, longitude, map_link, is_active)
             VALUES
-              (:l1, :p1, 'CG Road Parking Hub',         'Navrangpura',     'Ahmedabad', 23.03060000, 72.56150000, 'https://maps.google.com/?q=23.0306,72.5615', TRUE),
-              (:l2, :p1, 'SG Highway Tower Parking',     'Bodakdev',        'Ahmedabad', 23.04670000, 72.51180000, 'https://maps.google.com/?q=23.0467,72.5118', TRUE),
-              (:l3, :p2, 'Koregaon Park Lot',            'Koregaon Park',   'Pune',      18.53650000, 73.89310000, 'https://maps.google.com/?q=18.5365,73.8931', TRUE),
-              (:l4, :p2, 'Connaught Place Basement',     'Connaught Place', 'New Delhi', 28.63290000, 77.21950000, 'https://maps.google.com/?q=28.6329,77.2195', TRUE)
-            ON CONFLICT DO NOTHING
-        """), {"l1": L1, "l2": L2, "l3": L3, "l4": L4, "p1": P1, "p2": P2})
+              (:l1, :p1, 'SG Highway Tower Parking',     'SG Highway',      'Ahmedabad', 23.046700, 72.511800, 'https://maps.google.com/?q=23.0467,72.5118', TRUE),
+              (:l2, :p1, 'Sindhu Bhavan Premium Lot',    'Sindhu Bhavan',   'Ahmedabad', 23.040000, 72.502000, 'https://maps.google.com/?q=23.0400,72.5020', TRUE),
+              (:l3, :p1, 'Prahlad Nagar Corporate Park', 'Prahlad Nagar',   'Ahmedabad', 23.012500, 72.508500, 'https://maps.google.com/?q=23.0125,72.5085', TRUE),
+              (:l4, :p1, 'Vastrapur Lake Surface',       'Vastrapur',       'Ahmedabad', 23.036000, 72.529000, 'https://maps.google.com/?q=23.0360,72.5290', TRUE),
+              (:l5, :p1, 'Navrangpura Hub',              'Navrangpura',     'Ahmedabad', 23.030600, 72.561500, 'https://maps.google.com/?q=23.0306,72.5615', TRUE)
+            ON CONFLICT (location_id) DO NOTHING
+        """), {"l1": L1, "l2": L2, "l3": L3, "l4": L4, "l5": L5, "p1": P1})
 
         # ── 4. Pricing Policies ──────────────────────────────────────────
-        # Rates in paise  (₹40/hr = 4000 paise)
         conn.execute(text("""
             INSERT INTO pricing_policies (policy_id, location_id, hourly_rate, reservation_fee)
             VALUES
-              (:pr1, :l1, 4000,  500),
-              (:pr2, :l2, 6000, 1000),
-              (:pr3, :l3, 5000,  500),
-              (:pr4, :l4, 8000, 1500)
-            ON CONFLICT DO NOTHING
-        """), {"pr1": PR1, "pr2": PR2, "pr3": PR3, "pr4": PR4,
-               "l1": L1, "l2": L2, "l3": L3, "l4": L4})
+              (:pr1, :l1, 6000, 1000),  -- ₹60/hr
+              (:pr2, :l2, 8000, 1500),  -- ₹80/hr
+              (:pr3, :l3, 5000, 1000),  -- ₹50/hr
+              (:pr4, :l4, 4000,  500),  -- ₹40/hr
+              (:pr5, :l5, 5500,  800)   -- ₹55/hr
+            ON CONFLICT (policy_id) DO NOTHING
+        """), {"pr1": PR1, "pr2": PR2, "pr3": PR3, "pr4": PR4, "pr5": PR5,
+               "l1": L1, "l2": L2, "l3": L3, "l4": L4, "l5": L5})
 
         # ── 5. Slots ────────────────────────────────────────────────────
-        slot_rows = []
-        for i, sid in enumerate(SLOTS_L1):
-            slot_rows.append({"sid": sid, "lid": L1, "sname": f"A{i+1}", "stype": "CAR" if i < 4 else "BIKE"})
-        for i, sid in enumerate(SLOTS_L2):
-            slot_rows.append({"sid": sid, "lid": L2, "sname": f"B{i+1}", "stype": "CAR" if i < 3 else "EV"})
-        for i, sid in enumerate(SLOTS_L3):
-            slot_rows.append({"sid": sid, "lid": L3, "sname": f"C{i+1}", "stype": "CAR" if i < 4 else "BIKE"})
-        for i, sid in enumerate(SLOTS_L4):
-            slot_rows.append({"sid": sid, "lid": L4, "sname": f"D{i+1}", "stype": "CAR" if i < 3 else "EV"})
-
-        for s in slot_rows:
+        location_slots = {
+            L1: {"count": 30, "prefix": "SGH-"},
+            L2: {"count": 25, "prefix": "SBR-"},
+            L3: {"count": 40, "prefix": "PNC-"},
+            L4: {"count": 20, "prefix": "VLP-"},
+            L5: {"count": 15, "prefix": "NVH-"}
+        }
+        
+        all_slots = []
+        for loc_id, data in location_slots.items():
+            for i in range(data["count"]):
+                slot_id = f"{loc_id[:-5]}{i:05d}" # deterministic slot id
+                slot_type = "EV" if i < 3 else ("BIKE" if i > data["count"] - 6 else "CAR")
+                all_slots.append({
+                    "sid": slot_id,
+                    "lid": loc_id,
+                    "sname": f'{data["prefix"]}{i+1}',
+                    "stype": slot_type
+                })
+                
+        for s in all_slots:
             conn.execute(text("""
                 INSERT INTO slots (slot_id, location_id, slot_name, slot_type, is_active)
                 VALUES (:sid, :lid, :sname, :stype, TRUE)
-                ON CONFLICT DO NOTHING
+                ON CONFLICT (slot_id) DO NOTHING
             """), s)
 
-        # ── 6. Bookings ─────────────────────────────────────────────────
-        bookings = [
-            # Completed booking — Aarav at CG Road, 2 hrs ago
-            {
-                "bid": B1, "uid": U1, "lid": L1, "sid": SLOTS_L1[0],
-                "btype": "INSTANT", "status": "COMPLETED",
-                "ss": now - timedelta(hours=4), "se": now - timedelta(hours=2),
-                "astart": now - timedelta(hours=4), "aend": now - timedelta(hours=2),
-                "price": 8000, "pay": "PAID_OFFLINE",
-            },
-            # Active session — Sneha at SG Highway
-            {
-                "bid": B2, "uid": U2, "lid": L2, "sid": SLOTS_L2[1],
-                "btype": "INSTANT", "status": "ACTIVE",
-                "ss": now - timedelta(hours=1), "se": now + timedelta(hours=2),
-                "astart": now - timedelta(hours=1), "aend": None,
-                "price": None, "pay": "PENDING",
-            },
-            # Reserved (upcoming) — Kunal at Koregaon Park
-            {
-                "bid": B3, "uid": U3, "lid": L3, "sid": SLOTS_L3[2],
-                "btype": "ADVANCE", "status": "RESERVED",
-                "ss": now + timedelta(hours=3), "se": now + timedelta(hours=6),
-                "astart": None, "aend": None,
-                "price": None, "pay": "PENDING",
-            },
-            # Completed — Meera at CP Basement, yesterday
-            {
-                "bid": B4, "uid": U4, "lid": L4, "sid": SLOTS_L4[0],
-                "btype": "ADVANCE", "status": "COMPLETED",
-                "ss": now - timedelta(days=1, hours=5), "se": now - timedelta(days=1, hours=2),
-                "astart": now - timedelta(days=1, hours=5), "aend": now - timedelta(days=1, hours=2),
-                "price": 24000, "pay": "PAID_OFFLINE",
-            },
-            # Cancelled — Aarav cancelled a booking
-            {
-                "bid": B5, "uid": U1, "lid": L3, "sid": None,
-                "btype": "ADVANCE", "status": "CANCELLED",
-                "ss": now - timedelta(days=2), "se": now - timedelta(days=2) + timedelta(hours=2),
-                "astart": None, "aend": None,
-                "price": None, "pay": "PENDING",
-            },
-            # Active — Kunal at CG Road right now
-            {
-                "bid": B6, "uid": U3, "lid": L1, "sid": SLOTS_L1[3],
-                "btype": "INSTANT", "status": "ACTIVE",
-                "ss": now - timedelta(minutes=45), "se": now + timedelta(hours=2, minutes=15),
-                "astart": now - timedelta(minutes=45), "aend": None,
-                "price": None, "pay": "PENDING",
-            },
-        ]
+        # ── 6. Realistic Analytics Bookings (Past 30 Days) ───────────────
+        users = [U1, U2, U3, U4, U5, U6]
+        booking_types = ["INSTANT", "ADVANCE"]
+        status_weights = ["COMPLETED"] * 18 + ["ACTIVE"] + ["CANCELLED"]
+        rates = {L1: 60, L2: 80, L3: 50, L4: 40, L5: 55}
+        
+        for _ in range(220):
+            loc_id = random.choice([L1, L2, L3, L4, L5])
+            valid_slots = [s["sid"] for s in all_slots if s["lid"] == loc_id]
+            
+            status = random.choice(status_weights)
+            
+            days_ago = random.randint(0, 30)
+            if random.random() > 0.3:
+                hours_ago = random.randint(10, 20)
+            else:
+                hours_ago = random.randint(0, 23)
+                
+            scheduled_start = now - timedelta(days=days_ago, hours=hours_ago, minutes=random.randint(0, 59))
+            duration_hours = random.uniform(0.5, 4.5)
+            scheduled_end = scheduled_start + timedelta(hours=duration_hours)
+            
+            actual_start = scheduled_start + timedelta(minutes=random.randint(-5, 10)) if status != "CANCELLED" else None
+            actual_end = actual_start + timedelta(hours=duration_hours * random.uniform(0.8, 1.2)) if status == "COMPLETED" else None
+            
+            if status == "ACTIVE":
+                scheduled_start = now - timedelta(hours=random.uniform(0.1, 3.0))
+                actual_start = scheduled_start
+                scheduled_end = scheduled_start + timedelta(hours=random.uniform(1.0, 5.0))
+                actual_end = None
+                days_ago = 0
+                
+            if status == "COMPLETED" and actual_start and actual_end:
+                duration_in_hours = (actual_end - actual_start).total_seconds() / 3600
+                price_paise = int((duration_in_hours * rates[loc_id]) * 100)
+            else:
+                price_paise = None
 
-        for b in bookings:
+            # FIXED: Postgres payment_status_enum only accepts 'PENDING' or 'PAID_OFFLINE'
+            payment_status = "PAID_OFFLINE" if status == "COMPLETED" else "PENDING"
+                
             conn.execute(text("""
                 INSERT INTO bookings
                   (booking_id, user_id, location_id, slot_id, booking_type, status,
@@ -193,17 +176,31 @@ def seed():
                   (:bid, :uid, :lid, :sid, CAST(:btype AS booking_type_enum), CAST(:status AS booking_status_enum),
                    :ss, :se, :astart, :aend,
                    :price, CAST(:pay AS payment_status_enum))
-                ON CONFLICT DO NOTHING
-            """), b)
+                ON CONFLICT (booking_id) DO NOTHING
+            """), {
+                "bid": uid(),
+                "uid": random.choice(users),
+                "lid": loc_id,
+                "sid": random.choice(valid_slots) if status != "CANCELLED" else None,
+                "btype": random.choice(booking_types),
+                "status": status,
+                "ss": scheduled_start,
+                "se": scheduled_end,
+                "astart": actual_start,
+                "aend": actual_end,
+                "price": price_paise,
+                "pay": payment_status
+            })
 
-    print("✅ Seed data inserted successfully!")
-    print()
-    print("  Providers:  2  (login: rajesh@parksmart.in / Test@1234)")
-    print("  Users:      4")
-    print("  Locations:  4  (Ahmedabad ×2, Pune ×1, Delhi ×1)")
-    print("  Slots:     20  (5 per location)")
-    print("  Bookings:   6  (2 completed, 2 active, 1 reserved, 1 cancelled)")
-
+    print("✅ Seed data appended successfully! Original data preserved.")
+    print("--------------------------------------------------")
+    print("  Provider:   Vatsal Mehta")
+    print("  Login:      vatsal@parksmart.in")
+    print("  Password:   Test@1234")
+    print("--------------------------------------------------")
+    print("  Added Locations: 5 (Ahmedabad)")
+    print("  Added Bookings:  220 randomized entries")
+    print("--------------------------------------------------")
 
 if __name__ == "__main__":
     seed()
