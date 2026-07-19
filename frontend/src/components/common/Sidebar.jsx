@@ -15,6 +15,7 @@ const navItems = [
   { to: '/provider/locations',  label: 'Locations',  icon: 'M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z M12 7a3 3 0 1 0 0 6 3 3 0 0 0 0-6' },
   { to: '/provider/bookings',   label: 'Bookings',   icon: 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M16 13H8 M16 17H8 M10 9H8' },
   { to: '/provider/analytics',  label: 'Analytics',  icon: 'M18 20V10 M12 20V4 M6 20v-6' },
+  { to: '/provider/surveillance', label: 'Surveillance', icon: 'M12 2a4 4 0 0 1 4 4v1h1a3 3 0 0 1 3 3v1a3 3 0 0 1-3 3h-1v1a4 4 0 0 1-8 0v-1H7a3 3 0 0 1-3-3v-1a3 3 0 0 1 3-3h1V6a4 4 0 0 1 4-4z M9 10h.01 M15 10h.01 M9.5 15a3.5 3.5 0 0 0 5 0' },
 ]
 
 export default function Sidebar() {

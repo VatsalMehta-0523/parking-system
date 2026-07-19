@@ -5,6 +5,7 @@ import logging
 
 from .database import engine, Base
 from .routers import users, providers, locations, bookings, analytics
+from .routers import surveillance as surveillance_router
 from .services.expiry_service import expire_stale_bookings
 
 logging.basicConfig(level=logging.INFO)
@@ -33,6 +34,7 @@ app.include_router(providers.router)
 app.include_router(locations.router)
 app.include_router(bookings.router)
 app.include_router(analytics.router)
+app.include_router(surveillance_router.router)
 
 # Background scheduler for TTL expiry and overstay detection
 scheduler = BackgroundScheduler()

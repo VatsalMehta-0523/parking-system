@@ -23,8 +23,8 @@ parking-system/
 ├── backend/
 │   ├── app/
 │   │   ├── core/          # config, security (JWT)
-│   │   ├── routers/       # users, providers, locations, bookings, analytics
-│   │   ├── services/      # availability engine, booking logic, TTL expiry
+│   │   ├── routers/       # users, providers, locations, bookings, analytics, surveillance
+│   │   ├── services/      # availability engine, booking logic, surveillance_service (YOLO)
 │   │   ├── models.py      # SQLAlchemy ORM
 │   │   ├── schemas.py     # Pydantic schemas
 │   │   ├── database.py    # DB engine + session
@@ -41,7 +41,7 @@ parking-system/
 │   │   │   └── map/       # ParkingMap (Leaflet + OSM)
 │   │   └── pages/
 │   │       ├── customer/  # FindParking, Book, Ticket, Session, History, Profile
-│   │       └── provider/  # Login, Dashboard, Locations, Bookings, Analytics
+│   │       └── provider/  # Login, Dashboard, Locations, Bookings, Analytics, Surveillance
 │   ├── index.html
 │   ├── package.json
 │   └── vite.config.js
@@ -85,7 +85,26 @@ uvicorn app.main:app --reload --port 8000
 The API will be available at `http://localhost:8000`
 Swagger docs: `http://localhost:8000/docs`
 
-### 3. Frontend Setup
+### 3. AI Model Setup (Surveillance Feature)
+
+The AI Surveillance feature requires the YOLOv8x model. Since the API server is already running in your current terminal, open a **new terminal window**, activate your virtual environment, and download the model into the `backend/models/` folder:
+
+```bash
+cd backend
+# Activate venv (Windows)
+venv\Scripts\activate
+# Activate venv (Mac/Linux)
+# source venv/bin/activate
+
+# Download the model (caches to your user folder)
+python -c "from ultralytics import YOLO; YOLO('yolov8x.pt')"
+
+# Move the downloaded model into the local models directory
+move %USERPROFILE%\.cache\ultralytics\yolov8x.pt models\yolov8x.pt
+```
+*Note: The model is large (~150MB) and is ignored by git (via `backend/models/.gitignore`) to keep the repository clean.*
+
+### 4. Frontend Setup
 
 ```bash
 cd frontend

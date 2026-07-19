@@ -107,4 +107,10 @@ export const getOccupancyByHour = () =>
 export const getLocationStats = () =>
   api.get('/analytics/location-stats').then((r) => r.data)
 
+// ─── Surveillance ─────────────────────────────────────────────────────────────
+export const detectSurveillance = (formData) =>
+  api.post('/surveillance/detect', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  }).then((r) => r.data)
+
 export default api
